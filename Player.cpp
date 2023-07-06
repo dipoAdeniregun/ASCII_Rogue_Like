@@ -6,6 +6,7 @@ void Player::init(int _level, int _health, int _attack, int _defense, int _exper
 	atk = _attack ;
 	def = _defense ;
 	xp =  _experience ;
+	printInfo = { &level, &health, &atk, &def, &xp };
 }
 
 char Player::getSymbol() { return symbol; };

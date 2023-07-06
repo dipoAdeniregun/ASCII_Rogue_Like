@@ -1,13 +1,14 @@
 #include "Monster.h"
-#include <algorithm>
+
 
 //constructor that takes in health, probably used for continuing saved games
 Monster::Monster(char ori, int _x, int _y, int _level, int _health)
 	:x{ _x }, y{ _y }, level{ _level }, health{ _health }, orientation{ ori }
 {
-	atk = _level * 10;
-	def = _level * 10;
+	atk = _level * 15;
+	def = _level ;
 	xp = _level * 10; 
+	printInfo = { level, atk, def, xp };
 }
 
 //constructor that doesn't take in health value, used for new game
@@ -16,8 +17,9 @@ Monster::Monster(char ori, int _x, int _y, int _level)
 {
 	health = level * 10;
 	atk = _level;
-	def = _level;
+	def = _level ;
 	xp = _level * 25;
+	printInfo = { level, atk, def, xp };
 }
 
 

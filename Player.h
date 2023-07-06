@@ -1,7 +1,9 @@
 #pragma once
 #include <random>
 #include <ctime>
+#include <vector>
 #include "Monster.h"
+#include <algorithm>
 
 class Player
 {
@@ -14,7 +16,7 @@ private:
 	int def;
 	int xp;
 	char symbol;
-
+	
 public:
 	void init(int _level, int _health, int attack, int defense, int experience);
 	char getSymbol();
@@ -25,6 +27,7 @@ public:
 	int  attack();
 	int  takeDamage(int attack);
 	void addXp(int xpAdded);
+	std::vector <int*> printInfo;
 
 };
 

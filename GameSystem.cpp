@@ -14,7 +14,7 @@ void GameSystem::playGame(){
 	char keyPressed ;
 
 	do {
-		level.print();
+		level.print(player);
 		keyPressed = getMove();
 	} while (keyPressed != 'p');
 	

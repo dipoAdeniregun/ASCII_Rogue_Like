@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "Player.h"
 #include "Monster.h"
+#include <algorithm>
 
 Level::Level() {
 	_enemies = {};
@@ -23,6 +24,7 @@ void Level::load(std::string levelFileName, Player &player){
 	while (levelTxt) {
 		std::getline(levelTxt, s);
 		_level.push_back(s);
+		longestLineLength = std::max(longestLineLength, (int) s.size());
 	}
 
 	//process the level
@@ -54,10 +56,23 @@ void Level::load(std::string levelFileName, Player &player){
 }
 
 //print the level given the level vector
-void Level::print() {
+void Level::print(Player &_player) {
 	system("cls");
-	for (auto row : _level) {
-		printf("%s\n", row.c_str());
+	for (int i = 0; i < _level.size(); i++) {
+		printf("%-*s",longestLineLength, _level[i].c_str());
+		if (i == 0)
+		{
+			printf("\tPlayer Stats");
+			//printf("\t Enemy Info");
+		}
+		else if (i <= printInfo.size()) {
+			printf("\t%-6s", printInfo[i-1].c_str());
+			printf("%-6d", *(_player.printInfo[i-1]));
+
+		}
+		
+		printf("\n");
+		
 	}
 	printf("\n");
 }

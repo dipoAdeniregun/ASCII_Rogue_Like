@@ -16,8 +16,11 @@ private:
 	int def;
 	int xp;
 	
+	
 
 public:
+	Monster(const Monster& source);
+	Monster& operator=(const Monster& source);
 	Monster(char orientation, int x, int y, int level, int health);
 	Monster(char orientation, int x, int y,  int level);
 	void setx(int _x);
@@ -27,7 +30,8 @@ public:
 	void moveMonster();
 	int attack();
 	int takeDamage(int attack);
-	std::vector <int> printInfo;
+	std::vector <int*> printInfo;
+	void init();
 };
 
 

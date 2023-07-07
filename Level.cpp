@@ -5,6 +5,7 @@
 #include "Monster.h"
 #include <algorithm>
 
+
 Level::Level() {
 	_enemies = {};
 	_level = {};
@@ -43,7 +44,9 @@ void Level::load(std::string levelFileName, Player &player){
 			case '<':
 			case 'V':
 			case 'A':
-				_enemies.push_back(Monster(tile, j, i, 1, 10));
+				_enemies.push_back(Monster(tile, j, i, 1));
+				//printf("HP: %d", *_enemies.back().printInfo[1]);
+				
 				break;
 			default:
 				break;
@@ -158,25 +161,33 @@ void Level::battleMonster(Player& player, int targetX, int targetY) {
 	int attackRoll;
 	int attackResult;
 
-	for (auto enemy : _enemies) {
-		enemy.getPosition(enemyX, enemyY);
+	for (size_t i = 0; i < _enemies.size(); i++) {
+		_enemies[i].getPosition(enemyX, enemyY);
 
 		if (targetX == enemyX && targetY == enemyY) {
 			//do battle if we're trying to move to an enemy
+			_enemies[i].init();	//hacky way to set Monster printInfo pointers correctly
+			printf("Enemy  Stats\n");
+			for (size_t j = 0; j < printInfo.size(); j++)
+			{
+				printf("%-6s", printInfo[j].c_str());
+				printf("%6d\n", *(_enemies[i].printInfo[j]));
+			}
 			attackRoll = player.attack();
-			printf("Player attacked for %d damage\n", attackRoll);
-			system("PAUSE");
+			printf("\nPlayer attacked for %d damage\n", attackRoll);
+			
 
-			attackResult = enemy.takeDamage(attackRoll);
+			attackResult = _enemies[i].takeDamage(attackRoll);
 
 			if (attackResult > 0) {
+				printf("Enemy defeated\n");
 				player.addXp( attackResult);
-
+				//_enemies.erase(_enemies.begin()+i);
 				setTile('.', targetX, targetY);
 				return;
 			}
 
-			attackRoll = enemy.attack();
+			attackRoll = _enemies[i].attack();
 			printf("Enemy attacked you for %d damage!\n", attackRoll);
 			system("PAUSE");
 

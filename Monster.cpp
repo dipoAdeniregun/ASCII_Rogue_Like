@@ -8,7 +8,8 @@ Monster::Monster(char ori, int _x, int _y, int _level, int _health)
 	atk = _level * 15;
 	def = _level ;
 	xp = _level * 10; 
-	printInfo = { level, atk, def, xp };
+	printInfo = { &level, &health,  &atk, &def, &xp };
+	//printf("Level = %d\n", *printInfo[0]);
 }
 
 //constructor that doesn't take in health value, used for new game
@@ -19,13 +20,43 @@ Monster::Monster(char ori, int _x, int _y, int _level)
 	atk = _level;
 	def = _level ;
 	xp = _level * 25;
-	printInfo = { level, atk, def, xp };
+	printInfo = { &level, &health,  &atk, &def, &xp };
+	//printf("Level = %d\n", *printInfo[0]);
 }
 
-
+void Monster::init(){ printInfo = { &level, &health,  &atk, &def, &xp }; }
 void Monster::setx(int _x) { x = _x; };
 void Monster::sety(int _y) { y = _y; };
 void Monster::setPosition(int _x, int _y) { x = _x; y = _y; }
+
+//copy constructor
+Monster::Monster(const Monster& source) 
+	: x{ source.x }, y{ source.y }, level{ source.level }, health{source.health}, atk{source.atk}, def{source.def}, xp{source.xp}
+{
+	printInfo = source.printInfo;
+}
+
+Monster& Monster::operator=(const Monster &source)
+{
+	x = source.x;
+	y = source.y;
+	level = source.level;
+	health = source.health;
+	atk = source.atk;
+	def = source.def;
+	xp = source.xp;
+	
+	if (this == &source) {
+		return *this;
+	}
+
+	printInfo = {};
+
+	for (size_t i = 0; i < source.printInfo.size(); i++) {
+		printInfo.push_back(source.printInfo[i]);
+	}
+	return *this;
+}
 
 //get enemy x and y coordinates
 void Monster::getPosition(int& _x, int& _y) {
